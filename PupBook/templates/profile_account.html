@@ -1,0 +1,192 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div style="text-align:center">
+      <img class="rounded-circle account-img" src="{{ image_file }}">
+
+      <h2 class="account-heading">{{ current_user.username }}</h2>
+      <p class="text-secondary">{{ current_user.email }}</p>
+
+      <nav class="navbar navbar-expand-md">
+          <div class="container">
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile', username=current_user.username) }}">Posts</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_about') }}">About</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_photos') }}">Photos</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_friends') }}">Friends</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_account') }}">Account</a>
+          </div>
+      </nav>
+    </div>
+
+    <div class="content-section">
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fieldset class="form">
+                <h2 class="border-bottom mb-4">Account Information</h2>
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }}
+                    {% if form.username.errors %}
+                      {{ form.username(class="form-control form-control-lg is-invalid") }}
+                      <div class="invalid-feedback">
+                          {% for error in form.username.errors %}
+                            <span>{{  error }}</span>
+                          {% endfor %}
+                      </div>
+                    {% else %}
+                      {{ form.username(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                      {{ form.email(class="form-control form-control-lg is-invalid") }}
+                      <div class="invalid-feedback">
+                          {% for error in form.email.errors %}
+                            <span>{{  error }}</span>
+                          {% endfor %}
+                      </div>
+                    {% else %}
+                      {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.picture.label() }}
+                    {{ form.picture(class="form-control-file") }}
+                    {% if form.picture.errors %}
+                        {% for error in form.picture.errors %}
+                            <span class="text-danger">{{ error }}</span></br>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <br><br>
+
+        <form method="POST" action="" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <fieldset class="form">
+                    <legend class="border-bottom mb-2">About</legend>
+                    <div class="form-group">
+                        {{ form.age.label(class="form-control-label") }}
+                        {% if form.age.errors %}
+                          {{ form.age(class="form-control form-control-lg is-invalid") }}
+                          <div class="invalid-feedback">
+                              {% for error in form.age.errors %}
+                                <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                        {% else %}
+                          {{ form.age(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.breed.label(class="form-control-label") }}
+                        {% if form.breed.errors %}
+                          {{ form.breed(class="form-control form-control-lg is-invalid") }}
+                          <div class="invalid-feedback">
+                              {% for error in form.breed.errors %}
+                                <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                        {% else %}
+                          {{ form.breed(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.sex.label(class="form-control-label") }}
+                        {% if form.sex.errors %}
+                          {{ form.sex(class="form-control form-control-lg is-invalid") }}
+                          <div class="invalid-feedback">
+                              {% for error in form.sex.errors %}
+                                <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                        {% else %}
+                          {{ form.sex(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.current_city.label(class="form-control-label") }}
+                        {% if form.current_city.errors %}
+                          {{ form.current_city(class="form-control form-control-lg is-invalid") }}
+                          <div class="invalid-feedback">
+                              {% for error in form.current_city.errors %}
+                                <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                        {% else %}
+                          {{ form.current_city(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.birthday.label(class="form-control-label") }}
+                        {% if form.birthday.errors %}
+                          {{ form.birthday(class="form-control form-control-lg is-invalid") }}
+                          <div class="invalid-feedback">
+                              {% for error in form.birthday.errors %}
+                                <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                        {% else %}
+                          {{ form.birthday(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.favorite_food.label(class="form-control-label") }}
+                        {% if form.favorite_food.errors %}
+                          {{ form.favorite_food(class="form-control form-control-lg is-invalid") }}
+                          <div class="invalid-feedback">
+                              {% for error in form.favorite_food.errors %}
+                                <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                        {% else %}
+                          {{ form.favorite_food(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.relationship.label(class="form-control-label") }}
+                        {% if form.relationship.errors %}
+                          {{ form.relationship(class="form-control form-control-lg is-invalid") }}
+                          <div class="invalid-feedback">
+                              {% for error in form.relationship.errors %}
+                                <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                        {% else %}
+                          {{ form.relationship(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.interests.label(class="form-control-label") }}
+                        {% if form.interests.errors %}
+                          {{ form.interests(class="form-control form-control-lg is-invalid") }}
+                          <div class="invalid-feedback">
+                              {% for error in form.interests.errors %}
+                                <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                        {% else %}
+                          {{ form.interests(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.parents.label(class="form-control-label") }}
+                        {% if form.parents.errors %}
+                          {{ form.parents(class="form-control form-control-lg is-invalid") }}
+                          <div class="invalid-feedback">
+                              {% for error in form.parents.errors %}
+                                <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                        {% else %}
+                          {{ form.parents(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+
+
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+{% endblock content %}

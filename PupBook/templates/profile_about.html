@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div style="text-align:center">
+      <img class="rounded-circle account-img" src="{{ image_file }}">
+
+      <h2 class="account-heading">{{ user.username }}</h2>
+      <p class="text-secondary">{{ user.email }}</p>
+
+      <nav class="navbar navbar-expand-md">
+          <div class="container">
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile', username=user.username) }}">Posts</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_about') }}">About</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_photos') }}">Photos</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_friends') }}">Friends</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_account') }}">Account</a>
+          </div>
+      </nav>
+    </div>
+
+    <div class="content-section">
+        <h2 class="border-bottom mb-4">About {{ user.username }}</h2>
+        <div>
+            {% if user.age %}
+                <span style="font-weight: bold">Age:</span>
+                <span>{{ user.age }}</span>
+            {% endif %}
+        </div>
+        <br>
+
+        <div>
+            {% if current_user.breed %}
+                <span style="font-weight: bold">Breed:</span>
+                <span>{{ current_user.breed }}</span>
+            {% endif %}
+        </div>
+        <br>
+
+        <div>
+            {% if current_user.sex %}
+                <span style="font-weight: bold">Sex:</span>
+                <span>{{ current_user.sex }}</span>
+            {% endif %}
+        </div>
+        <br>
+
+        <div>
+            {% if current_user.current_city %}
+                <span style="font-weight: bold">Current City:</span>
+                <span>{{ current_user.current_city }}</span>
+            {% endif %}
+        </div>
+        <br>
+
+        <div>
+            {% if current_user.birthday %}
+                <span style="font-weight: bold">Birthday:</span>
+                <span>{{ current_user.birthday }}</span>
+            {% endif %}
+        </div>
+        <br>
+
+        <div>
+            {% if current_user.favorite_food %}
+                <span style="font-weight: bold">Favorite Food:</span>
+                <span>{{ current_user.favorite_food }}</span>
+            {% endif %}
+        </div>
+        <br>
+
+        <div>
+            {% if current_user.relationship %}
+                <span style="font-weight: bold">Relationship:</span>
+                <span>{{ current_user.relationship }}</span>
+            {% endif %}
+        </div>
+        <br>
+
+        <div>
+            {% if current_user.interests %}
+                <span style="font-weight: bold">Interests:</span>
+                <span>{{ current_user.interests }}</span>
+            {% endif %}
+        </div>
+        <br>
+
+        <div>
+            {% if current_user.parents %}
+                <span style="font-weight: bold">Parents:</span>
+                <span>{{ current_user.parents }}</span>
+            {% endif %}
+        </div>
+        <br>
+    </div>
+
+{% endblock content %}

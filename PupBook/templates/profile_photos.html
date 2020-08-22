@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div style="text-align:center">
+      <img class="rounded-circle account-img" src="{{ image_file }}">
+
+      <h2 class="account-heading">{{ current_user.username }}</h2>
+      <p class="text-secondary">{{ current_user.email }}</p>
+
+      <nav class="navbar navbar-expand-md">
+          <div class="container">
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile', username=current_user.username) }}">Posts</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_about') }}">About</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_photos') }}">Photos</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_friends') }}">Friends</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_account') }}">Account</a>
+          </div>
+      </nav>
+    </div>
+    <div class="content-section">
+    <form method="POST" action="" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <fieldset class="form">
+            <legend class="border-bottom mb-4">Photos</legend>
+            <div class="form-group">
+                    {{ form.pictures.label() }}
+                    {{ form.pictures(class="form-control-file") }}
+                    {% if form.pictures.errors %}
+                        {% for error in form.pictures.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+        </fieldset>
+        <br>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+    </div>
+    <div>
+      {% for image in images %}
+        <img src="{{ url_for('static', filename='photos/' + current_user.username + '/' + image) }}">
+      {% endfor %}
+    </div>
+{% endblock content %}
