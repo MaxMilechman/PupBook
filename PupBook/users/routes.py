@@ -74,25 +74,27 @@ def profile(username):
     posts = Post.query.filter_by(author=user) \
         .order_by(Post.date_posted.desc()) \
         .paginate(per_page=5, page=page)
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    image_file = url_for('static', filename='profile_pics/' + user.image_file)
     return render_template('profile.html', title='Profile', image_file=image_file, posts=posts, user=user)
 
 
-@users.route("/profile/about", methods=['GET', 'POST'])
+@users.route("/profile/about/<string:username>", methods=['GET', 'POST'])
 @login_required
-def profile_about():
-    user = User.query.filter_by(username=current_user.username).first_or_404()
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+def profile_about(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    image_file = url_for('static', filename='profile_pics/' + user.image_file)
     return render_template('profile_about.html', title='About', image_file=image_file, user=user)
 
 
-@users.route("/profile/photos", methods=['GET', 'POST'])
+@users.route("/profile/photos/<string:username>", methods=['GET', 'POST'])
 @login_required
-def profile_photos():
-    user = User.query.filter_by(username=current_user.username).first_or_404()
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+def profile_photos(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    image_file = url_for('static', filename='profile_pics/' + user.image_file)
     form = ProfilePhotosForm()
-    images = os.listdir(os.path.join(current_app.static_folder, 'photos', current_user.username))
+    if not os.path.exists(os.path.join(current_app.static_folder, 'photos', user.username)):
+        os.makedirs(os.path.join(current_app.static_folder, 'photos', user.username))
+    images = os.listdir(os.path.join(current_app.static_folder, 'photos', user.username))
     if form.validate_on_submit():
         for file in form.pictures.data:
             save_picture_photos(file)
@@ -100,21 +102,24 @@ def profile_photos():
             flash('Your images has been uploaded!', 'success')
         else:
             flash('Your image has been uploaded!', 'success')
-        return redirect(url_for('users.profile_photos'))
+        return redirect(url_for('users.profile_photos', username=user.username))
     return render_template('profile_photos.html', title='Photos', image_file=image_file, images=images, form=form, user=user)
 
 
-@users.route("/profile/friends", methods=['GET', 'POST'])
+@users.route("/profile/friends/<string:username>", methods=['GET', 'POST'])
 @login_required
-def profile_friends():
-    user = User.query.filter_by(username=current_user.username).first_or_404()
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+def profile_friends(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    image_file = url_for('static', filename='profile_pics/' + user.image_file)
     return render_template('profile_friends.html', title='Profile', image_file=image_file, user=user)
 
 
-@users.route("/profile/account", methods=['GET', 'POST'])
+@users.route("/profile/account/<string:username>", methods=['GET', 'POST'])
 @login_required
-def profile_account():
+def profile_account(username):
+    if current_user.username != username:
+        return render_template('errors/403.html')
+    user = User.query.filter_by(username=username).first_or_404()
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.picture.data:
@@ -133,7 +138,7 @@ def profile_account():
         current_user.parents = form.parents.data
         db.session.commit()
         flash('Your account has been updated!', 'success')
-        return redirect(url_for('users.profile_account'))
+        return redirect(url_for('users.profile_account', username=user.username))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
@@ -146,8 +151,8 @@ def profile_account():
         form.relationship.data = current_user.relationship
         form.interests.data = current_user.interests
         form.parents.data = current_user.parents
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
-    return render_template('profile_account.html', title='Account', image_file=image_file, form=form)
+    image_file = url_for('static', filename='profile_pics/' + user.image_file)
+    return render_template('profile_account.html', title='Account', image_file=image_file, form=form, user=user)
 
 
 @users.route("/user/<string:username>")

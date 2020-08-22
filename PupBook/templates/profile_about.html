@@ -7,13 +7,22 @@
       <p class="text-secondary">{{ user.email }}</p>
 
       <nav class="navbar navbar-expand-md">
+          {% if user.username == current_user.username %}
           <div class="container">
             <a class="btn btn-outline-info" href="{{ url_for('users.profile', username=user.username) }}">Posts</a>
-            <a class="btn btn-outline-info" href="{{ url_for('users.profile_about') }}">About</a>
-            <a class="btn btn-outline-info" href="{{ url_for('users.profile_photos') }}">Photos</a>
-            <a class="btn btn-outline-info" href="{{ url_for('users.profile_friends') }}">Friends</a>
-            <a class="btn btn-outline-info" href="{{ url_for('users.profile_account') }}">Account</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_about', username=user.username) }}">About</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_photos', username=user.username) }}">Photos</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_friends', username=user.username) }}">Friends</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_account', username=user.username) }}">Account</a>
           </div>
+          {% else %}
+          <div class="container">
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile', username=user.username) }}">Posts</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_about', username=user.username) }}">About</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_photos', username=user.username) }}">Photos</a>
+            <a class="btn btn-outline-info" href="{{ url_for('users.profile_friends', username=user.username) }}">Friends</a>
+          </div>
+          {% endif %}
       </nav>
     </div>
 
@@ -28,65 +37,65 @@
         <br>
 
         <div>
-            {% if current_user.breed %}
+            {% if user.breed %}
                 <span style="font-weight: bold">Breed:</span>
-                <span>{{ current_user.breed }}</span>
+                <span>{{ user.breed }}</span>
             {% endif %}
         </div>
         <br>
 
         <div>
-            {% if current_user.sex %}
+            {% if user.sex %}
                 <span style="font-weight: bold">Sex:</span>
-                <span>{{ current_user.sex }}</span>
+                <span>{{ user.sex }}</span>
             {% endif %}
         </div>
         <br>
 
         <div>
-            {% if current_user.current_city %}
+            {% if user.current_city %}
                 <span style="font-weight: bold">Current City:</span>
-                <span>{{ current_user.current_city }}</span>
+                <span>{{ user.current_city }}</span>
             {% endif %}
         </div>
         <br>
 
         <div>
-            {% if current_user.birthday %}
+            {% if user.birthday %}
                 <span style="font-weight: bold">Birthday:</span>
-                <span>{{ current_user.birthday }}</span>
+                <span>{{ user.birthday }}</span>
             {% endif %}
         </div>
         <br>
 
         <div>
-            {% if current_user.favorite_food %}
+            {% if user.favorite_food %}
                 <span style="font-weight: bold">Favorite Food:</span>
-                <span>{{ current_user.favorite_food }}</span>
+                <span>{{ user.favorite_food }}</span>
             {% endif %}
         </div>
         <br>
 
         <div>
-            {% if current_user.relationship %}
+            {% if user.relationship %}
                 <span style="font-weight: bold">Relationship:</span>
-                <span>{{ current_user.relationship }}</span>
+                <span>{{ user.relationship }}</span>
             {% endif %}
         </div>
         <br>
 
         <div>
-            {% if current_user.interests %}
+            {% if user.interests %}
                 <span style="font-weight: bold">Interests:</span>
-                <span>{{ current_user.interests }}</span>
+                <span>{{ user.interests }}</span>
             {% endif %}
         </div>
         <br>
 
         <div>
-            {% if current_user.parents %}
+            {% if user.parents %}
                 <span style="font-weight: bold">Parents:</span>
-                <span>{{ current_user.parents }}</span>
+                <span>{{ user.parents }}</span>
             {% endif %}
         </div>
         <br>
