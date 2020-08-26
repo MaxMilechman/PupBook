@@ -31,6 +31,10 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 
+class AddFriendForm(FlaskForm):
+    submit = SubmitField('Add Friend!')
+
+
 class UpdateAccountForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=3, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])

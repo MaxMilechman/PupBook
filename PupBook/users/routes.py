@@ -3,7 +3,7 @@ from flask import render_template, url_for, flash, redirect, request, Blueprint,
 from flask_login import login_user, current_user, logout_user, login_required
 from PupBook import db, bcrypt
 from PupBook.models import User, Post
-from PupBook.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm, ProfilePhotosForm
+from PupBook.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm, ProfilePhotosForm, AddFriendForm
 from PupBook.users.utils import save_picture, save_picture_photos, send_reset_email
 
 users = Blueprint('users', __name__)
@@ -109,9 +109,15 @@ def profile_photos(username):
 @users.route("/profile/friends/<string:username>", methods=['GET', 'POST'])
 @login_required
 def profile_friends(username):
+    form = AddFriendForm()
     user = User.query.filter_by(username=username).first_or_404()
     image_file = url_for('static', filename='profile_pics/' + user.image_file)
-    return render_template('profile_friends.html', title='Profile', image_file=image_file, user=user)
+    if form.validate_on_submit():
+        current_user.befriend(user)
+        db.session.commit()
+        flash('You added ' + str(user.username) + ' as a friend!', 'success')
+        return redirect(url_for('users.profile_friends', username=user.username))
+    return render_template('profile_friends.html', title='Profile', image_file=image_file, user=user, form=form)
 
 
 @users.route("/profile/account/<string:username>", methods=['GET', 'POST'])

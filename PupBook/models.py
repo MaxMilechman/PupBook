@@ -10,6 +10,13 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+friends = db.Table('friends',
+                   db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+                   db.Column('friend_id', db.Integer, db.ForeignKey('user.id')),
+                   db.UniqueConstraint('user_id', 'friend_id', name='unique_friendships')
+                   )
+
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
@@ -26,6 +33,21 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
+    friends = db.relationship('User',
+                              secondary=friends,
+                              backref='friend',
+                              primaryjoin=id == friends.c.user_id,
+                              secondaryjoin=id == friends.c.friend_id)
+
+    def befriend(self, friend):
+        if friend not in self.friends:
+            self.friends.append(friend)
+            friend.friends.append(self)
+
+    def unfriend(self, friend):
+        if friend in self.friends:
+            self.friends.remove(friend)
+            friend.friends.remove(self)
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
@@ -54,4 +76,3 @@ class Post(db.Model):
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
-

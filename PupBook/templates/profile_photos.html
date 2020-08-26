@@ -30,6 +30,7 @@
         {{ form.hidden_tag() }}
         <fieldset class="form">
             <legend class="border-bottom mb-4">Photos</legend>
+            {% if user.username == current_user.username %}
             <div class="form-group">
                     {{ form.pictures.label() }}
                     {{ form.pictures(class="form-control-file") }}
@@ -40,15 +41,13 @@
                     {% endif %}
                 </div>
         </fieldset>
-        <br>
         <div class="form-group">
             {{ form.submit(class="btn btn-outline-info") }}
         </div>
+        {% endif %}
     </form>
-    </div>
-    <div>
-      {% for image in images %}
+    {% for image in images %}
         <img src="{{ url_for('static', filename='photos/' + user.username + '/' + image) }}">
-      {% endfor %}
+    {% endfor %}
     </div>
 {% endblock content %}

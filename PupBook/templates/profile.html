@@ -27,7 +27,7 @@
 
     </div>
     <div class="content-section">
-        <h1 class="mb-3">Posts by {{ user.username }}</h1>
+        <h4 class="border-bottom mb-3">Posts by {{ user.username }}</h4>
         {% for post in posts.items %}
             <article class="media content-section">
               <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">

@@ -24,6 +24,33 @@
           </div>
           {% endif %}
       </nav>
-    FRIENDS
+    </div>
+
+    <div class="content-section">
+    <form method="POST" action="" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+      <fieldset class="form">
+          <legend class="border-bottom mb-4">Friends</legend>
+      </fieldset>
+      {% if current_user.username != user.username %}
+        <!-- {% if user not in current_user.friends %} -->
+          <div class="form-group">
+            <a>Add {{ user.username }} as a friend?</a>
+            {{ form.submit(class="btn btn-outline-info") }}
+          </div>
+        <!-- {% endif %} -->
+      {% endif %}
+    </form>
+    {% for friend in user.friends %}
+      <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + friend.image_file) }}">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" >{{ friend.username }}</a>
+          </div>
+            <a class="mr-2" >{{ friend.email }}</a>
+        </div>
+      </article>
+    {% endfor %}
     </div>
 {% endblock content %}

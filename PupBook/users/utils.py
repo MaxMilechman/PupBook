@@ -83,7 +83,7 @@ def save_picture_photos(form_picture):
         offset = difference / 2
         resize = (0, offset, width, height - offset)
 
-    resized_image = i.crop(resize).resize((350, 350), Image.ANTIALIAS)
+    resized_image = i.crop(resize).resize((300, 300), Image.ANTIALIAS)
     resized_image.save(picture_path)
 
     return picture_fn

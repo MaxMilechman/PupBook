@@ -28,8 +28,11 @@ def new_post():
 @posts.route("/post/<int:post_id>")
 def post(post_id):
     post = Post.query.get_or_404(post_id)
-    image_file = url_for('static', filename='posts/' + post.image_file)
-    return render_template('post.html', title=post.title, post=post, image_file=image_file)
+    if post.image_file:
+        image_file = url_for('static', filename='posts/' + post.image_file)
+        return render_template('post.html', title=post.title, post=post, image_file=image_file)
+    else:
+        return render_template('post.html', title=post.title, post=post)
 
 
 @posts.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
